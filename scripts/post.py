@@ -15,7 +15,7 @@ import urllib.request
 from datetime import datetime, timezone
 
 API = "https://graph.facebook.com/v21.0"
-RAW = "https://raw.githubusercontent.com/{repo}/main/{image}"
+RAW = "https://raw.githubusercontent.com/{repo}/main/{image}"  # image is a path inside the repo
 REPO = os.environ.get("GITHUB_REPOSITORY", "mukitrahman/slowd-media")
 POSTS_FILE = "posts.json"
 
@@ -74,7 +74,7 @@ def main():
         if datetime.fromisoformat(p["time"]) > now:
             continue
         done = p.setdefault("posted", {})
-        image_url = RAW.format(repo=REPO, image=p["image"])
+        image_url = RAW.format(repo=REPO, image=urllib.parse.quote(p["image"]))
         for platform in p["platforms"]:
             if platform in done:
                 continue

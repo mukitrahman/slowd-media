@@ -1,0 +1,23 @@
+Product Name:
+
+Price:
+
+Dimensions (L x W x H):
+
+Weight:
+
+Bulb Type / Power:
+
+Cable Length:
+
+Material:
+
+Colors Available:
+
+One line description:
+
+Mood/Vibe:
+
+Target buyer:
+
+Anything else:
