@@ -1,0 +1,36 @@
+name: Post to Slowd
+
+on:
+  schedule:
+    - cron: "*/30 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: slowd-post
+  cancel-in-progress: false
+
+jobs:
+  post:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Publish due posts
+        env:
+          IG_TOKEN: ${{ secrets.IG_TOKEN }}
+          IG_USER_ID: ${{ secrets.IG_USER_ID }}
+          FB_PAGE_TOKEN: ${{ secrets.FB_PAGE_TOKEN }}
+          FB_PAGE_ID: ${{ secrets.FB_PAGE_ID }}
+        run: python3 scripts/post.py
+      - name: Save post status
+        if: always()
+        run: |
+          if ! git diff --quiet posts.json; then
+            git config user.name "slowd-bot"
+            git config user.email "slowd-bot@users.noreply.github.com"
+            git add posts.json
+            git commit -m "Update post status"
+            git push
+          fi
