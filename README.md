@@ -32,3 +32,15 @@ Keep raw originals on your own computer. Only feed ready copies go here.
 ## Posts
 
 A post goes out when `approved` is `true` and its `time` has passed. Times use Asia/Dhaka (+06:00).
+
+Use `"images": [ ... ]` with 2 to 10 photos of the same product. That becomes an Instagram carousel
+and a multi photo Facebook post. Use `"image": "..."` for a single photo.
+
+## Schedule
+
+Three posts a week: Sunday, Wednesday and Friday at 8:30 pm Dhaka time.
+Review the Instagram and Facebook insights after three weeks and adjust the days or times.
+
+## Testing
+
+Actions, Post to Slowd, Run workflow with `check` ticked. It tests the secrets and posts nothing.

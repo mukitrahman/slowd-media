@@ -1,72 +1,52 @@
 {
-  "_readme": "Posts go out when approved is true and the time has passed. Times are Asia/Dhaka (+06:00). HoneyBun 4 is not here because it was already scheduled in Meta Business Suite.",
+  "_readme": "Posts go out when approved is true and the time has passed. Times are Asia/Dhaka (+06:00). A post with several images becomes an Instagram carousel and a multi photo Facebook post. Schedule: Sunday, Wednesday and Friday at 8:30 pm.",
   "instagram_hashtags": "#slowd #honeybun #warmlighting #tablelamp #cozyhome #bedroomdecor #dhaka #bangladesh",
   "posts": [
     {
-      "id": "honeybun-1",
-      "image": "products/honeybun/photos/honeybun-1.jpg",
-      "time": "2026-11-19T20:00:00+06:00",
+      "id": "honeybun-intro",
+      "images": [
+        "products/honeybun/photos/honeybun-2.jpg",
+        "products/honeybun/photos/honeybun-3.jpg",
+        "products/honeybun/photos/honeybun-5.jpg",
+        "products/honeybun/photos/honeybun-1.jpg"
+      ],
+      "time": "2026-11-20T20:30:00+06:00",
       "platforms": [
         "instagram",
         "facebook"
       ],
       "approved": false,
-      "caption": "The day is over.\n\nSwitch off the big light. Let one soft amber glow take over the room.\n\nHoneyBun is a small table lamp for the hour when you finally slow down.\n\n৳1,890\nBulb and cable included.\n\nSlowd\nLight that slows you down."
+      "caption": "Meet HoneyBun.\n\nA soft amber lamp for the hour when you finally slow down. Four stacked pillow layers with a woven texture that turns a plain bulb into a gentle glow.\n\nSwitch off the big light. Plug it in. Just breathe.\n\n৳1,890\nBulb and cable included.\n\nSlowd\nLight that slows you down."
     },
     {
-      "id": "honeybun-2",
-      "image": "products/honeybun/photos/honeybun-2.jpg",
-      "time": "2026-11-20T20:00:00+06:00",
-      "platforms": [
-        "instagram",
-        "facebook"
+      "id": "honeybun-desk",
+      "images": [
+        "products/honeybun/photos/honeybun-7.jpg",
+        "products/honeybun/photos/honeybun-6.jpg",
+        "products/honeybun/photos/honeybun-2.jpg"
       ],
-      "approved": false,
-      "caption": "Four soft layers. One warm glow.\n\nHoneyBun filters the light through a woven texture, so the room feels calm instead of bright.\n\nIt measures 13.7 by 13.7 by 20.6 cm, small enough for any table.\n\n৳1,890\n\nSlowd\nLight that slows you down."
-    },
-    {
-      "id": "honeybun-3",
-      "image": "products/honeybun/photos/honeybun-3.jpg",
-      "time": "2026-11-21T20:00:00+06:00",
-      "platforms": [
-        "instagram",
-        "facebook"
-      ],
-      "approved": false,
-      "caption": "What comes in the box?\n\nOne HoneyBun lamp. One 5 W warm LED bulb. A 2 metre cable with a plug.\n\nPlug it in and it is ready.\n\n৳1,890\nSend us a message to order.\n\nSlowd\nLight that slows you down."
-    },
-    {
-      "id": "honeybun-5",
-      "image": "products/honeybun/photos/honeybun-5.jpg",
-      "time": "2026-11-22T20:00:00+06:00",
-      "platforms": [
-        "instagram",
-        "facebook"
-      ],
-      "approved": false,
-      "caption": "Your bedside, sorted.\n\nA soft amber glow tells your mind the day is done. No harsh brightness, just a calm end to the evening.\n\nMade for bedrooms and for anyone who feels wired at night.\n\n৳1,890\n\nSlowd\nLight that slows you down."
-    },
-    {
-      "id": "honeybun-6",
-      "image": "products/honeybun/photos/honeybun-6.jpg",
-      "time": "2026-11-23T20:00:00+06:00",
-      "platforms": [
-        "instagram",
-        "facebook"
-      ],
-      "approved": false,
-      "caption": "Up close.\n\nThe woven texture is what turns a plain bulb into a gentle glow. Every layer is 3D printed, one line at a time.\n\nCare tip: use LED bulbs only, up to 5 W, and wipe it with a dry soft cloth.\n\nSlowd\nLight that slows you down."
-    },
-    {
-      "id": "honeybun-7",
-      "image": "products/honeybun/photos/honeybun-7.jpg",
-      "time": "2026-11-24T20:00:00+06:00",
+      "time": "2026-11-22T20:30:00+06:00",
       "platforms": [
         "instagram",
         "facebook"
       ],
       "approved": false,
       "caption": "Working late?\n\nPut HoneyBun on your desk and let it tell your body the day is over. A calm light next to the screen makes it easier to switch off.\n\nAlso a thoughtful gift for the person who never stops.\n\n৳1,890\n\nSlowd\nLight that slows you down."
+    },
+    {
+      "id": "honeybun-box-care",
+      "images": [
+        "products/honeybun/photos/honeybun-3.jpg",
+        "products/honeybun/photos/honeybun-6.jpg",
+        "products/honeybun/photos/honeybun-5.jpg"
+      ],
+      "time": "2026-11-25T20:30:00+06:00",
+      "platforms": [
+        "instagram",
+        "facebook"
+      ],
+      "approved": false,
+      "caption": "What comes in the box?\n\nOne HoneyBun lamp. One 5 W warm LED bulb. A 2 metre cable with a plug. It measures 13.7 by 13.7 by 20.6 cm.\n\nCare tip: use LED bulbs only, up to 5 W, and wipe it with a dry soft cloth.\n\n৳1,890\nSend us a message to order.\n\nSlowd\nLight that slows you down."
     }
   ]
 }
