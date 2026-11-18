@@ -60,7 +60,29 @@ def post_facebook(image_url, caption):
     return call(f"{page}/photos", {"url": image_url, "caption": caption, "access_token": token}).get("post_id")
 
 
+def check():
+    """Verify secrets work without publishing anything."""
+    ok = True
+    for label, path, token, extra in (
+        ("Instagram", os.environ.get("IG_USER_ID"), os.environ.get("IG_TOKEN"), "username"),
+        ("Facebook", os.environ.get("FB_PAGE_ID"), os.environ.get("FB_PAGE_TOKEN"), "name"),
+    ):
+        if not path or not token:
+            print(f"{label}: secrets missing")
+            ok = False
+            continue
+        try:
+            r = get(path, {"fields": extra, "access_token": token})
+            print(f"{label}: OK ({r.get(extra)})")
+        except Exception as e:
+            print(f"{label}: FAILED {e}")
+            ok = False
+    sys.exit(0 if ok else 1)
+
+
 def main():
+    if "--check" in sys.argv:
+        check()
     with open(POSTS_FILE, encoding="utf-8") as f:
         doc = json.load(f)
     now = datetime.now(timezone.utc)

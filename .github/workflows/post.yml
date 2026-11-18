@@ -4,6 +4,11 @@ on:
   schedule:
     - cron: "*/30 * * * *"
   workflow_dispatch:
+    inputs:
+      check:
+        description: "Only test the secrets, do not post anything"
+        type: boolean
+        default: true
 
 permissions:
   contents: write
@@ -23,7 +28,7 @@ jobs:
           IG_USER_ID: ${{ secrets.IG_USER_ID }}
           FB_PAGE_TOKEN: ${{ secrets.FB_PAGE_TOKEN }}
           FB_PAGE_ID: ${{ secrets.FB_PAGE_ID }}
-        run: python3 scripts/post.py
+        run: python3 scripts/post.py ${{ github.event_name == 'workflow_dispatch' && inputs.check && '--check' || '' }}
       - name: Save post status
         if: always()
         run: |
