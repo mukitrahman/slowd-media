@@ -1,0 +1,31 @@
+{
+  "_readme": "Set auto to true to let the workflow create and publish a post for every slot with random photos and a random caption from products/<name>/captions.json. Leave it false until the captions are approved.",
+  "auto": false,
+  "timezone": "Asia/Dhaka",
+  "slots": [
+    {
+      "day": "Sun",
+      "time": "20:30"
+    },
+    {
+      "day": "Wed",
+      "time": "20:30"
+    },
+    {
+      "day": "Fri",
+      "time": "20:30"
+    }
+  ],
+  "images_per_post": [
+    3,
+    4
+  ],
+  "products": [
+    "honeybun"
+  ],
+  "platforms": [
+    "instagram",
+    "facebook"
+  ],
+  "grace_hours": 3
+}

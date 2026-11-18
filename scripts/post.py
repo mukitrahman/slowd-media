@@ -17,8 +17,12 @@ import sys
 import time
 import urllib.parse
 import urllib.request
-from datetime import datetime, timezone
+import random
+from datetime import datetime, timedelta, timezone
+from pathlib import Path
+from zoneinfo import ZoneInfo
 
+SCHEDULE_FILE = "schedule.json"
 API = "https://graph.facebook.com/v21.0"
 RAW = "https://raw.githubusercontent.com/{repo}/main/{image}"
 REPO = os.environ.get("GITHUB_REPOSITORY", "mukitrahman/slowd-media")
@@ -114,6 +118,91 @@ def images_of(post):
     return post.get("images") or [post["image"]]
 
 
+DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+
+
+def latest_slot(slots, now, tz):
+    """Most recent scheduled slot at or before now, in the given time zone."""
+    local = now.astimezone(tz)
+    best = None
+    for s in slots:
+        hh, mm = map(int, s["time"].split(":"))
+        for back in range(8):
+            day = (local - timedelta(days=back)).date()
+            if DAYS[day.weekday()] != s["day"]:
+                continue
+            t = datetime(day.year, day.month, day.day, hh, mm, tzinfo=tz)
+            if t <= local and (best is None or t > best):
+                best = t
+            break
+    return best
+
+
+def auto_generate(doc, now):
+    """Create the post for the current slot with random photos and a random caption.
+
+    Only runs when schedule.json has "auto": true. Photos from the last two posts
+    and captions from the last three are avoided while enough others remain.
+    """
+    try:
+        with open(SCHEDULE_FILE, encoding="utf-8") as f:
+            sched = json.load(f)
+    except FileNotFoundError:
+        return False
+    if not sched.get("auto"):
+        return False
+    tz = ZoneInfo(sched.get("timezone", "Asia/Dhaka"))
+    slot = latest_slot(sched["slots"], now, tz)
+    if slot is None or now - slot.astimezone(timezone.utc) > timedelta(hours=sched.get("grace_hours", 3)):
+        return False
+    post_id = "auto-" + slot.strftime("%Y%m%d-%H%M")
+    if any(p["id"] == post_id for p in doc["posts"]):
+        return False
+    # an explicit post close to this slot replaces the automatic one
+    for p in doc["posts"]:
+        if abs(datetime.fromisoformat(p["time"]) - slot) < timedelta(hours=2):
+            return False
+
+    rng = random.SystemRandom()
+    product = rng.choice(sched["products"])
+    photos = sorted(str(p) for p in Path(f"products/{product}/photos").glob("*.jpg"))
+    bank_file = Path(f"products/{product}/captions.json")
+    if not photos or not bank_file.exists():
+        print(f"AUTO skipped: {product} needs photos and captions.json")
+        return False
+    bank = json.load(open(bank_file, encoding="utf-8"))
+
+    history = sorted((p for p in doc["posts"] if p.get("product") == product), key=lambda p: p["time"])
+    recent_photos = {i for p in history[-2:] for i in images_of(p)}
+    recent_caps = {p.get("caption_id") for p in history[-3:]}
+    k = min(rng.randint(*sched.get("images_per_post", [3, 4])), len(photos), IG_MAX_IMAGES)
+    pool = [p for p in photos if p not in recent_photos]
+    if len(pool) < k:
+        last = set(images_of(history[-1])) if history else set()
+        pool = [p for p in photos if p not in last] or photos
+    caps = [c for c in bank if c["id"] not in recent_caps] or bank
+    cap = rng.choice(caps)
+    # a caption can name photos it needs, for example a desk caption needs the desk photo
+    required = [f"products/{product}/photos/{n}.jpg" for n in cap.get("requires", [])]
+    required = [p for p in required if p in photos][:k]
+    rest = [p for p in pool if p not in required]
+    chosen = required + rng.sample(rest, min(k - len(required), len(rest)))
+
+    doc["posts"].append({
+        "id": post_id,
+        "auto": True,
+        "product": product,
+        "images": chosen,
+        "caption_id": cap["id"],
+        "caption": cap["text"],
+        "time": slot.isoformat(),
+        "platforms": sched.get("platforms", ["instagram", "facebook"]),
+        "approved": True,
+    })
+    print(f"AUTO created {post_id}: {len(chosen)} photos of {product}, caption {cap['id']}")
+    return True
+
+
 def main():
     if "--check" in sys.argv:
         check()
@@ -121,7 +210,7 @@ def main():
         doc = json.load(f)
     now = datetime.now(timezone.utc)
     hashtags = doc.get("instagram_hashtags", "")
-    changed = False
+    changed = auto_generate(doc, now)
     failed = False
 
     for p in doc["posts"]:
